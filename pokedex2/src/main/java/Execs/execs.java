@@ -65,4 +65,8 @@ public class execs {
     public String CrearNuevoPokemon(String nombre){
         return exe+"CrearNuevoPokemon "+nombre;
     }
+    
+    public String CambiarNombreDePokemon(int id, String nombre){
+        return exe+"CambiarNombreDePokemon "+id+", "+nombre;
+    }
 }

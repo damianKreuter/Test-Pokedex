@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import Entidades.PokemonDeUsuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class PokemonsQueTiene1User extends javax.swing.JFrame {
@@ -55,6 +56,7 @@ public class PokemonsQueTiene1User extends javax.swing.JFrame {
             }
         });
 
+        jTableListaPokemonesSinDetalle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTableListaPokemonesSinDetalle.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
             },
@@ -62,6 +64,20 @@ public class PokemonsQueTiene1User extends javax.swing.JFrame {
                 "ID Registro", "Pokemon", "Nombre"
             }
         ));
+        jTableListaPokemonesSinDetalle.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTableListaPokemonesSinDetalle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableListaPokemonesSinDetalleMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableListaPokemonesSinDetalleMousePressed(evt);
+            }
+        });
+        jTableListaPokemonesSinDetalle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableListaPokemonesSinDetalleKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableListaPokemonesSinDetalle);
 
         jButtonVolver.setText("Volver");
@@ -196,6 +212,33 @@ public class PokemonsQueTiene1User extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonQuitarPokemonActionPerformed
 
+    private void jTableListaPokemonesSinDetalleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableListaPokemonesSinDetalleKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jTableListaPokemonesSinDetalleKeyPressed
+
+    private void jTableListaPokemonesSinDetalleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListaPokemonesSinDetalleMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jTableListaPokemonesSinDetalleMouseClicked
+
+    private void jTableListaPokemonesSinDetalleMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListaPokemonesSinDetalleMousePressed
+        // TODO add your handling code here:
+        //EL USER SELECCIONO 1 POKEMON PARA VER SUS DETALLES
+        
+        int posicionSeleccionada = this.jTableListaPokemonesSinDetalle.getSelectedRow();
+        try{
+            int numeroID = (int) jTableListaPokemonesSinDetalle.getValueAt(posicionSeleccionada, 0);
+            detallePokemon det = new detallePokemon(numeroID, this);
+            System.out.println("ID REGISTRO SELECCIONADO: "+ String.valueOf(numeroID));
+            det.comenzar(numeroID, this);
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Algo salió mal al clickear la fila nro: "
+                    + String.valueOf(posicionSeleccionada));
+        }
+        
+    }//GEN-LAST:event_jTableListaPokemonesSinDetalleMousePressed
+
     public void recargar(int idUsuario) throws SQLException{
         this.IDUSER = idUsuario;
         LabelUser.setText(String.valueOf(idUsuario));
@@ -255,25 +298,27 @@ public class PokemonsQueTiene1User extends javax.swing.JFrame {
         ArrayList<PokemonDeUsuario> lista = new ArrayList<PokemonDeUsuario>();
         
         while(res.next()){
-            lista.add(new PokemonDeUsuario(res.getInt(1), res.getString(2), res.getInt(3)));
+            lista.add(new PokemonDeUsuario(res.getInt(1), res.getString(2), res.getInt(3), res.getString(4)));
             System.out.println("NRO: "+String.valueOf(res.getInt(1))+
-                    ", Nombre: "+ res.getString(2)+", NIVEL: "+String.valueOf(res.getInt(3)));
+                    ", Nombre: "+ res.getString(2)+", NIVEL: "+String.valueOf(res.getInt(3))+
+                    ",  NOMBRE: "+ res.getString(4));
         }
         DefaultTableModel model;
         if(recarga){
             model = new javax.swing.table.DefaultTableModel(
                                             new Object [][] {},  
-                        new String [] {"ID Registro", "Pokemon", "Nombre"});
+                        new String [] {"ID Registro", "Pokemon", "Nivel", "Nombre dado por user"});
             
         } else {
             model =  (DefaultTableModel)jTableListaPokemonesSinDetalle.getModel();
         }
         
-        Object[] row = new Object[3];
+        Object[] row = new Object[4];
         for(PokemonDeUsuario a: lista){
             row[0]=a.getIdUser();
             row[1]=a.getPokemon();
             row[2]=a.getNivel();
+            row[3]=a.getNombreDado();
             model.addRow(row);
         }
         if(recarga){

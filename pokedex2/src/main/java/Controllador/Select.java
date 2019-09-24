@@ -44,7 +44,7 @@ public class Select {
     }
     
      public ResultSet obtenerDatoDe1PokemonDe1User(int pok_x_user_ID){
-        return ejecutarSQL("SELECT p.pok_name, pu.pok_x_user_nivel FROM [pokedexSchema].Pokemones p\n" +
+        return ejecutarSQL("SELECT p.pok_name, pu.pok_x_user_nivel, pu.pok_x_user_nombreDeUser FROM [pokedexSchema].Pokemones p\n" +
 "	JOIN [pokedexSchema].Pokemon_x_users pu ON pu.pok_x_user_pokemonID = p.pok_id \n" +
                 "WHERE pu.pok_x_user_ID="+pok_x_user_ID+
 "							ORDER BY p.pok_id asc");
@@ -64,7 +64,8 @@ public class Select {
     }
     
     public ResultSet todosLosPokemonesDe1User(int user){
-        return ejecutarSQL("SELECT pu.pok_x_user_ID ,p.pok_name, pu.pok_x_user_nivel FROM [pokedexSchema].Pokemones p\n" +
+        return ejecutarSQL("SELECT pu.pok_x_user_ID ,p.pok_name, pu.pok_x_user_nivel,"
+                + "pu.pok_x_user_nombreDeUser FROM [pokedexSchema].Pokemones p\n" +
 "	JOIN [pokedexSchema].Pokemon_x_users pu ON pu.pok_x_user_pokemonID = p.pok_id \n" +
 "	AND pu.pok_x_user_userID="+user+"\n" +
 "							ORDER BY 1");

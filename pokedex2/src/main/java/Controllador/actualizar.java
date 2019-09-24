@@ -21,4 +21,8 @@ public class actualizar extends operacionesActualizarAniadirEliminar {
     public boolean AumentarNivelPokemon(int id_pokemon_dE_user, int nuevoNivel){
         return realiarProcedure(exe.AumentarNivelPokemon(id_pokemon_dE_user, nuevoNivel));
     }
+    
+    public boolean ActualizarNombreDePokemonDe1User(int id_pok_x_user, String nombreAPoner){
+        return realiarProcedure(exe.CambiarNombreDePokemon(id_pok_x_user, nombreAPoner));
+    }
 }
